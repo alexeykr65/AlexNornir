@@ -1,0 +1,4 @@
+### DMVPN1: ===>> sh ip nhrp nhs <<===
+
+
+

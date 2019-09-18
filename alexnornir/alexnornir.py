@@ -13,7 +13,9 @@ version: 1.0
 """
 import warnings
 import re
+import time
 import yaml
+import os
 # from nornir.plugins.functions.text import (
 #     print_result, print_title
 # )
@@ -21,6 +23,7 @@ import yaml
 from termcolor import colored
 from netaddr import IPNetwork
 from nornir import InitNornir
+from datetime import datetime
 from nornir.plugins.tasks.text import template_file
 from nornir.plugins.tasks.networking import netmiko_send_config, napalm_configure, netmiko_send_command
 warnings.filterwarnings(action='ignore', module='.*paramiko.*')
@@ -29,7 +32,7 @@ warnings.filterwarnings(action='ignore', module='.*paramiko.*')
 class AlexNornir:
     """ Class for get information from cisco routers """
 
-    def __init__(self, config_file='config.yaml', filter_roles='', filter_hosts='', data_file=''):
+    def __init__(self, config_file='config.yaml', filter_roles='', filter_hosts='', data_file='', output_dir='output'):
         self.__config_file = config_file
         self.__filter_roles = list(filter_roles.lower().split(','))
         self.__filter_hosts = list(filter_hosts.lower().split(','))
@@ -38,6 +41,8 @@ class AlexNornir:
         self.__load_data = ''
         self.__res = ''
         self.__ospf_filter = ['area', 'nei', 'db']
+        self.__output_dir = output_dir
+        self.__save_to_file = True
         # print(f'roles: {self.__filter_hosts}')
         if filter_roles != '':
             norf = InitNornir(config_file=self.__config_file, dry_run=False)
@@ -51,6 +56,32 @@ class AlexNornir:
         if self.__data_file != '':
             with open(self.__data_file, mode='r') as yaml_id:
                 self.__load_data = yaml.load(yaml_id)
+        self.getdate()
+        filebits = ["output", self.year, self.month, self.day, self.hour, self.minute + ".markdown"]
+        self.__date_name_file = '-'.join(filebits)
+
+    def write_to_file(self, prep_name, to_file):
+        fileSave = '-'.join([prep_name, self.__date_name_file])
+        if not os.path.exists(f'{self.__output_dir}/{prep_name}'):
+            os.makedirs(f'{self.__output_dir}/{prep_name}')
+        with open(f'{self.__output_dir}/{prep_name}/{fileSave}', 'w') as f:
+            f.write(to_file)
+
+    def getdate(self):
+        '''
+        This function returns a tuple of the year, month and day.
+        '''
+        # Get Date
+        now = datetime.now()
+        self.day = str(now.day)
+        self.month = str(now.month)
+        self.year = str(now.year)
+        self.hour = str(now.hour)
+        self.minute = str(now.minute)
+        if len(self.day) == 1:
+            self.day = '0' + self.day
+        if len(self.month) == 1:
+            self.month = '0' + self.month
 
     def filter_roles(self, host):
         ret = False
@@ -124,11 +155,17 @@ class AlexNornir:
     def run_cmds(self, cmds):
         res = self.__nor.run(task=self.run_cmds_task, cmds=cmds)
         for i in res:
+            to_file = ""
             self.print_title_host(f'{i}', flag_center=True)
             # print(colored(f'=============================== {i} ==================================', 'white'))
+            # to_file += f'========================== {i} ============================\n'
             for j in range(1, len(res[i])):
                 self.print_title_result(f'{res[i][j].name}')
                 self.print_body_result(f'{str(res[i][j])}')
+                to_file += f'### {i}: ===>> {res[i][j].name} <<===\n'
+                to_file += f'{res[i][j]}\n\n\n'
+            if self.__save_to_file:
+                self.write_to_file(i.lower(), to_file)
 
     @classmethod
     def ospf_info_task(cls, task, ospf):

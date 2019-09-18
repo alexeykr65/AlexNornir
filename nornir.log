@@ -21,3 +21,28 @@
 2019-09-18 14:36:21,121 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs'} on 5 hosts
 2019-09-18 14:38:02,444 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs detail\\'} on 5 hosts
 2019-09-18 14:38:08,044 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs detail'} on 5 hosts
+2019-09-18 15:25:58,976 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 1 hosts
+2019-09-18 15:27:28,242 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 1 hosts
+2019-09-18 15:30:48,085 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 1 hosts
+2019-09-18 15:33:28,523 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 1 hosts
+2019-09-18 15:33:56,674 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 2 hosts
+2019-09-18 15:35:35,255 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 2 hosts
+2019-09-18 15:48:15,893 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 2 hosts
+2019-09-18 15:49:55,478 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 2 hosts
+2019-09-18 15:50:20,622 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh run'} on 2 hosts
+2019-09-18 15:55:45,062 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 2 hosts
+2019-09-18 15:56:02,618 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br'} on 2 hosts
+2019-09-18 15:56:25,640 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 15:57:23,742 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:01:28,414 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:03:41,673 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:05:23,105 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:08:47,829 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:11:54,273 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:15:43,959 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip int br, sh ip route eigrp'} on 2 hosts
+2019-09-18 16:23:59,088 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp detail'} on 2 hosts
+2019-09-18 16:24:19,276 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs detail'} on 2 hosts
+2019-09-18 16:24:32,348 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs'} on 2 hosts
+2019-09-18 17:13:22,336 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs'} on 2 hosts
+2019-09-18 17:14:09,738 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip dmvpn'} on 2 hosts
+2019-09-18 17:14:22,955 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh dmvpn'} on 2 hosts

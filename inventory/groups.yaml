@@ -1,0 +1,15 @@
+---
+dmvpn:
+  data:
+    description: 'All DMVPN routers'
+dmvpn_hubs:
+  data:
+    description: 'Only Hubs '
+internet:
+  data:
+    description: 'Internets routers '
+all_hosts:
+  username: 'root'
+  password: 'cisco'
+  platform: 'ios'
+  

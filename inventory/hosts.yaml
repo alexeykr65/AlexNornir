@@ -1,0 +1,125 @@
+---
+DMVPN1:
+  hostname: '10.122.30.1'
+  data:
+    role: hub
+  groups: 
+    - all_hosts
+DMVPN2:
+  hostname: '10.122.30.2'
+  data:
+    role: hub
+  groups: 
+    - all_hosts
+CE1:
+  hostname: '10.122.30.13'
+  data:
+    role: spoke
+  groups: 
+    - all_hosts
+CE2:
+  hostname: '10.122.30.14'
+  data:
+    role: spoke
+  groups: 
+    - all_hosts
+CE3:
+  hostname: '10.122.30.15'
+  data:
+    role: spoke
+  groups: 
+    - all_hosts
+LAN0:
+  hostname: '10.122.30.19'         
+  data:
+    role: lan
+  groups: 
+    - all_hosts
+LAN1:
+  hostname: '10.122.30.16'
+  data:
+    role: lan
+  groups: 
+    - all_hosts
+LAN2:
+  hostname: '10.122.30.17'
+  data:
+    role: lan
+  groups: 
+    - all_hosts
+LAN3:
+  hostname: '10.122.30.18'
+  data:
+    role: lan
+  groups: 
+    - all_hosts
+GW1:
+  hostname: '10.122.30.3'
+  data:
+    role: gw
+  groups: 
+    - all_hosts
+GW2:
+  hostname: '10.122.30.4'
+  data:
+    role: gw
+  groups: 
+    - all_hosts
+PE1:
+  hostname: '10.122.30.5'
+  data:
+    role: pe
+  groups: 
+    - all_hosts
+PE2:
+  hostname: '10.122.30.6'
+  data:
+    role: pe
+  groups: 
+    - all_hosts
+PE3:
+  hostname: '10.122.30.7'
+  data:
+    role: pe
+  groups: 
+    - all_hosts
+P1:
+  hostname: '10.122.30.8'
+  data:
+    role: internet
+  groups: 
+    - all_hosts
+P2:
+  hostname: '10.122.30.9'
+  data:
+    role: internet
+  groups: 
+    - all_hosts
+P3:
+  hostname: '10.122.30.10'
+  data:
+    role: internet
+  groups: 
+    - all_hosts
+P12:
+  hostname: '10.122.30.11'
+  data:
+    role: internet
+  groups: 
+    - all_hosts
+PE20:
+  hostname: '10.122.30.12'
+  data:
+    role: internet
+  groups: 
+    - all_hosts
+PE21:
+  hostname: '10.122.30.20'
+  data:
+    role: internet
+  groups: 
+    - all_hosts
+
+
+
+

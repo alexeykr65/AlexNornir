@@ -1,0 +1,21 @@
+### DMVPN1: ===>> sh dmvpn <<===
+Legend: Attrb --> S - Static, D - Dynamic, I - Incomplete
+	N - NATed, L - Local, X - No Socket
+	T1 - Route Installed, T2 - Nexthop-override
+	C - CTS Capable
+	# Ent --> Number of NHRP entries with same NBMA peer
+	NHS Status: E --> Expecting Replies, R --> Responding, W --> Waiting
+	UpDn Time --> Up or Down Time for a Tunnel
+==========================================================================
+
+Interface: Tunnel100, IPv4 NHRP Details 
+Type:Hub, NHRP Peers:3, 
+
+ # Ent  Peer NBMA Addr Peer Tunnel Add State  UpDn Tm Attrb
+ ----- --------------- --------------- ----- -------- -----
+     1 10.13.13.2       192.168.111.11    UP    3d04h     D
+     1 10.14.14.2       192.168.111.12    UP    3d05h     D
+     1 10.15.15.2       192.168.111.13    UP    1d08h     D
+
+
+

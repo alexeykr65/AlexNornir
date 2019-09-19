@@ -33,38 +33,38 @@ class AlexNornir:
     """ Class for get information from cisco routers """
 
     def __init__(self, config_file='config.yaml', filter_roles='', filter_hosts='', data_file='', output_dir='output'):
-        self.__config_file = config_file
-        self.__filter_roles = list(filter_roles.lower().split(','))
-        self.__filter_hosts = list(filter_hosts.lower().split(','))
-        self.__dry_run = False
-        self.__data_file = data_file
-        self.__load_data = ''
-        self.__res = ''
-        self.__ospf_filter = ['area', 'nei', 'db']
-        self.__output_dir = output_dir
-        self.__save_to_file = True
+        self._config_file = config_file
+        self._filter_roles = list(filter_roles.lower().split(','))
+        self._filter_hosts = list(filter_hosts.lower().split(','))
+        self._dry_run = False
+        self._data_file = data_file
+        self._load_data = ''
+        self._res = ''
+        self._ospf_filter = ['area', 'nei', 'db']
+        self._output_dir = output_dir
+        self._save_to_file = True
         # print(f'roles: {self.__filter_hosts}')
         if filter_roles != '':
-            norf = InitNornir(config_file=self.__config_file, dry_run=False)
-            self.__nor = norf.filter(filter_func=self.filter_roles)
+            norf = InitNornir(config_file=self._config_file, dry_run=False)
+            self._nor = norf.filter(filter_func=self.filter_roles)
         elif filter_hosts != '':
-            norf = InitNornir(config_file=self.__config_file, dry_run=False)
-            self.__nor = norf.filter(filter_func=self.filter_hosts)
+            norf = InitNornir(config_file=self._config_file, dry_run=False)
+            self._nor = norf.filter(filter_func=self.filter_hosts)
         else:
-            self.__nor = InitNornir(config_file=self.__config_file, dry_run=False)
+            self._nor = InitNornir(config_file=self._config_file, dry_run=False)
 
-        if self.__data_file != '':
-            with open(self.__data_file, mode='r') as yaml_id:
-                self.__load_data = yaml.load(yaml_id)
+        if self._data_file != '':
+            with open(self._data_file, mode='r') as yaml_id:
+                self._load_data = yaml.load(yaml_id)
         self.getdate()
         filebits = ["output", self.year, self.month, self.day, self.hour, self.minute + ".markdown"]
-        self.__date_name_file = '-'.join(filebits)
+        self._date_name_file = '-'.join(filebits)
 
     def write_to_file(self, prep_name, to_file):
-        fileSave = '-'.join([prep_name, self.__date_name_file])
-        if not os.path.exists(f'{self.__output_dir}/{prep_name}'):
-            os.makedirs(f'{self.__output_dir}/{prep_name}')
-        with open(f'{self.__output_dir}/{prep_name}/{fileSave}', 'w') as f:
+        fileSave = '-'.join([prep_name, self._date_name_file])
+        if not os.path.exists(f'{self._output_dir}/{prep_name}'):
+            os.makedirs(f'{self._output_dir}/{prep_name}')
+        with open(f'{self._output_dir}/{prep_name}/{fileSave}', 'w') as f:
             f.write(to_file)
 
     def getdate(self):
@@ -86,7 +86,7 @@ class AlexNornir:
     def filter_roles(self, host):
         ret = False
         if 'role' in host.data:
-            ret = host.data["role"] in self.__filter_roles
+            ret = host.data["role"] in self._filter_roles
         return ret
 
     @classmethod
@@ -104,23 +104,23 @@ class AlexNornir:
         return ret
 
     def filter_hosts(self, host):
-        return str(host).lower() in self.__filter_hosts
+        return str(host).lower() in self._filter_hosts
 
     @property
     def ospf_filter(self):
-        return self.__ospf_filter
+        return self._ospf_filter
 
     @ospf_filter.setter
     def ospf_filter(self, val):
-        self.__ospf_filter = val
+        self._ospf_filter = val
 
     @property
     def nor(self):
-        return self.__nor
+        return self._nor
 
     @property
     def load_data(self):
-        return self.__load_data
+        return self._load_data
 
     @classmethod
     def ping_task(cls, task, dt):
@@ -133,9 +133,9 @@ class AlexNornir:
             )
 
     def ping(self):
-        res = self.__nor.run(task=self.ping_task, dt=self.__load_data)
+        res = self._nor.run(task=self.ping_task, dt=self._load_data)
         for i in res:
-            if i in self.__load_data['ping_check']:
+            if i in self._load_data['ping_check']:
                 self.print_title_host(f'{i}')
                 for jj in res[i]:
                     if re.search("Success rate is 100", str(jj), re.DOTALL):
@@ -153,7 +153,7 @@ class AlexNornir:
             )
 
     def run_cmds(self, cmds):
-        res = self.__nor.run(task=self.run_cmds_task, cmds=cmds)
+        res = self._nor.run(task=self.run_cmds_task, cmds=cmds)
         for i in res:
             to_file = ""
             self.print_title_host(f'{i}', flag_center=True)
@@ -164,7 +164,7 @@ class AlexNornir:
                 self.print_body_result(f'{str(res[i][j])}')
                 to_file += f'### {i}: ===>> {res[i][j].name} <<===\n'
                 to_file += f'{res[i][j]}\n\n\n'
-            if self.__save_to_file:
+            if self._save_to_file:
                 self.write_to_file(i.lower(), to_file)
 
     @classmethod
@@ -299,9 +299,9 @@ class AlexNornir:
             ospf[str(task.host)]['dbms_sum_areas'] = dbms_sum_areas
 
     def ospf_info(self):
-        filter_output = self.__ospf_filter
+        filter_output = self._ospf_filter
         ospf_info = dict()
-        res = self.__nor.run(task=self.ospf_info_task, ospf=ospf_info)
+        res = self._nor.run(task=self.ospf_info_task, ospf=ospf_info)
         # print_result(f'Result: {res}')
         for i in sorted(ospf_info):
             # print(colored("*"*83, 'yellow', attrs=['bold']))

@@ -46,3 +46,6 @@
 2019-09-18 17:13:22,336 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip nhrp nhs'} on 2 hosts
 2019-09-18 17:14:09,738 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip dmvpn'} on 2 hosts
 2019-09-18 17:14:22,955 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh dmvpn'} on 2 hosts
+2019-09-19 22:15:53,718 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip dmvpn'} on 2 hosts
+2019-09-19 22:16:16,938 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh dmvpn'} on 2 hosts
+2019-09-19 22:22:25,811 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh dmvpn'} on 2 hosts

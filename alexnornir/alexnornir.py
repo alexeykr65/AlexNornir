@@ -60,11 +60,19 @@ class AlexNornir:
         filebits = ["output", self.year, self.month, self.day, self.hour, self.minute + ".markdown"]
         self._date_name_file = '-'.join(filebits)
 
-    def write_to_file(self, prep_name, to_file):
-        fileSave = '-'.join([prep_name, self._date_name_file])
-        if not os.path.exists(f'{self._output_dir}/{prep_name}'):
-            os.makedirs(f'{self._output_dir}/{prep_name}')
-        with open(f'{self._output_dir}/{prep_name}/{fileSave}', 'w') as f:
+    def write_to_file(self, prep_name, to_file, flag_config):
+        '''
+        This function save output of command to file.
+        '''
+        if flag_config:
+            fileSave = '-'.join([prep_name, "config.txt"])
+            name_file = f'{self._output_dir}/{fileSave}'
+        else:
+            fileSave = '-'.join([prep_name, self._date_name_file])
+            if not os.path.exists(f'{self._output_dir}/{prep_name}'):
+                os.makedirs(f'{self._output_dir}/{prep_name}')
+            name_file = f'{self._output_dir}/{prep_name}/{fileSave}'
+        with open(f'{name_file}', 'w') as f:
             f.write(to_file)
 
     def getdate(self):
@@ -152,7 +160,7 @@ class AlexNornir:
                 command_string=cmd
             )
 
-    def run_cmds(self, cmds):
+    def run_cmds(self, cmds, flag_config=False):
         res = self._nor.run(task=self.run_cmds_task, cmds=cmds)
         for i in res:
             to_file = ""
@@ -165,7 +173,10 @@ class AlexNornir:
                 to_file += f'### {i}: ===>> {res[i][j].name} <<===\n'
                 to_file += f'{res[i][j]}\n\n\n'
             if self._save_to_file:
-                self.write_to_file(i.lower(), to_file)
+                self.write_to_file(i.lower(), to_file, flag_config=flag_config)
+
+    def get_config(self):
+        self.run_cmds("show running", flag_config=True)
 
     @classmethod
     def ospf_info_task(cls, task, ospf):

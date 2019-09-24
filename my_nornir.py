@@ -17,6 +17,7 @@ def check_argument_parser():
     parser.add_argument('-p', '--ping', help='Ping hosts', dest="ping", action="store_true")
     parser.add_argument('-io', '--info_ospf', help='Get information from OSPF', dest="info_ospf", action="store_true")
     parser.add_argument('-o', '--ospf', help='OSPF Configure Standart ', dest="ospf", action="store_true")
+    parser.add_argument('-g', '--getconf', help='Get running Configuration', dest="getconf", action="store_true")
     parser.add_argument('-c', '--cmd', help='Run command on Routers', dest="cmd", default='')
     parser.add_argument('-fr', '--froles', help='Filter hosts by roles', dest="froles", default='')
     parser.add_argument('-fh', '--fhosts', help='Filter hosts by name', dest="fhosts", default='')
@@ -32,6 +33,8 @@ def main():
         nr.ping()
     elif ag.cmd:
         nr.run_cmds(ag.cmd)
+    elif ag.getconf:
+        nr.get_config()
     elif ag.ospf:
         if ag.fospf:
             nr.ospf_filter = ag.fospf

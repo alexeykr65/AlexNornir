@@ -1,0 +1,184 @@
+### P12: ===>> show running <<===
+Building configuration...
+
+  
+Current configuration : 4006 bytes
+!
+! Last configuration change at 06:42:34 UTC Mon Sep 9 2019 by root
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname P12
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name incoma.ru
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username root privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 11.11.11.11 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 100.200.101.2 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 200.200.200.1 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.122.30.11 255.255.0.0
+ duplex full
+ speed auto
+ media-type rj45
+!
+router ospf 10
+ router-id 11.11.11.11
+ network 11.11.11.11 0.0.0.0 area 0
+ network 100.200.101.0 0.0.0.255 area 0
+!
+router bgp 57681
+ bgp router-id 11.11.11.11
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 5.5.5.5 remote-as 57681
+ neighbor 5.5.5.5 update-source Loopback0
+ neighbor 8.8.8.8 remote-as 57681
+ neighbor 8.8.8.8 update-source Loopback0
+ neighbor 200.200.200.4 remote-as 65500
+ neighbor 200.200.200.5 remote-as 65501
+ !
+ address-family ipv4
+  network 94.232.31.145 mask 255.255.255.255
+  network 94.232.31.146 mask 255.255.255.255
+  neighbor 5.5.5.5 activate
+  neighbor 5.5.5.5 next-hop-self
+  neighbor 8.8.8.8 activate
+  neighbor 8.8.8.8 next-hop-self
+  neighbor 200.200.200.4 activate
+  neighbor 200.200.200.5 activate
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.122.1.1
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ transport input all
+!
+no scheduler allocate
+!
+end
+
+
+

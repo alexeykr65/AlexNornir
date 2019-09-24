@@ -49,3 +49,185 @@
 2019-09-19 22:15:53,718 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh ip dmvpn'} on 2 hosts
 2019-09-19 22:16:16,938 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh dmvpn'} on 2 hosts
 2019-09-19 22:22:25,811 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'sh dmvpn'} on 2 hosts
+2019-09-20 21:13:12,806 -  nornir.core -     INFO -        run() - Running task 'ping_task' with args {'dt': {'ping_check': {'DMVPN1': ['172.16.1.1', '172.16.1.2', '172.16.2.1', '172.16.2.2', '172.16.3.1', '172.16.3.2'], 'DMVPN2': ['172.16.1.1', '172.16.1.2', '172.16.2.1', '172.16.2.2', '172.16.3.1', '172.16.3.2'], 'CE1': ['172.16.4.4'], 'CE2': ['172.16.4.4', '172.16.6.6'], 'CE3': ['172.16.4.4'], 'LAN0': ['172.16.1.2', '172.16.2.2', '172.16.3.2'], 'LAN1': ['172.16.4.4', '172.16.5.5'], 'LAN2': ['172.16.4.4', '172.16.5.5'], 'LAN3': ['172.16.4.4', '172.16.5.5']}}} on 20 hosts
+2019-09-20 21:13:12,822 - nornir.core.task -    ERROR -      start() - Host 'GW2': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'GW2'
+
+2019-09-20 21:13:12,822 - nornir.core.task -    ERROR -      start() - Host 'PE2': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE2'
+
+2019-09-20 21:13:12,823 - nornir.core.task -    ERROR -      start() - Host 'P12': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P12'
+
+2019-09-20 21:13:12,823 - nornir.core.task -    ERROR -      start() - Host 'PE21': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE21'
+
+2019-09-20 21:13:12,823 - nornir.core.task -    ERROR -      start() - Host 'P1': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P1'
+
+2019-09-20 21:13:12,823 - nornir.core.task -    ERROR -      start() - Host 'PE20': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE20'
+
+2019-09-20 21:13:12,823 - nornir.core.task -    ERROR -      start() - Host 'P3': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P3'
+
+2019-09-20 21:13:12,823 - nornir.core.task -    ERROR -      start() - Host 'GW1': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'GW1'
+
+2019-09-20 21:13:12,824 - nornir.core.task -    ERROR -      start() - Host 'PE3': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE3'
+
+2019-09-20 21:13:12,824 - nornir.core.task -    ERROR -      start() - Host 'P2': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P2'
+
+2019-09-20 21:13:12,824 - nornir.core.task -    ERROR -      start() - Host 'PE1': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE1'
+
+2019-09-20 21:13:48,324 -  nornir.core -     INFO -        run() - Running task 'ping_task' with args {'dt': {'ping_check': {'DMVPN1': ['172.16.1.1', '172.16.1.2', '172.16.2.1', '172.16.2.2', '172.16.3.1', '172.16.3.2'], 'DMVPN2': ['172.16.1.1', '172.16.1.2', '172.16.2.1', '172.16.2.2', '172.16.3.1', '172.16.3.2'], 'CE1': ['172.16.4.4'], 'CE2': ['172.16.4.4', '172.16.6.6'], 'CE3': ['172.16.4.4'], 'LAN0': ['172.16.1.2', '172.16.2.2', '172.16.3.2'], 'LAN1': ['172.16.4.4', '172.16.5.5'], 'LAN2': ['172.16.4.4', '172.16.5.5'], 'LAN3': ['172.16.4.4', '172.16.5.5']}}} on 20 hosts
+2019-09-20 21:13:48,339 - nornir.core.task -    ERROR -      start() - Host 'PE3': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE3'
+
+2019-09-20 21:13:48,340 - nornir.core.task -    ERROR -      start() - Host 'PE21': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE21'
+
+2019-09-20 21:13:48,340 - nornir.core.task -    ERROR -      start() - Host 'P1': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P1'
+
+2019-09-20 21:13:48,340 - nornir.core.task -    ERROR -      start() - Host 'P3': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P3'
+
+2019-09-20 21:13:48,341 - nornir.core.task -    ERROR -      start() - Host 'GW2': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'GW2'
+
+2019-09-20 21:13:48,341 - nornir.core.task -    ERROR -      start() - Host 'GW1': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'GW1'
+
+2019-09-20 21:13:48,341 - nornir.core.task -    ERROR -      start() - Host 'PE1': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE1'
+
+2019-09-20 21:13:48,341 - nornir.core.task -    ERROR -      start() - Host 'P12': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P12'
+
+2019-09-20 21:13:48,341 - nornir.core.task -    ERROR -      start() - Host 'P2': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'P2'
+
+2019-09-20 21:13:48,341 - nornir.core.task -    ERROR -      start() - Host 'PE20': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE20'
+
+2019-09-20 21:13:48,342 - nornir.core.task -    ERROR -      start() - Host 'PE2': task 'ping_task' failed with traceback:
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Users/alex/Dropbox/Ansible/nornir/alexnornir/alexnornir.py", line 127, in ping_task
+    for ph in dt['ping_check'][str(task.host)]:
+KeyError: 'PE2'
+
+2019-09-24 22:10:01,799 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'show running'} on 20 hosts
+2019-09-24 22:27:43,761 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'show running'} on 20 hosts
+2019-09-24 22:30:29,954 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'show running'} on 20 hosts
+2019-09-24 22:31:16,624 -  nornir.core -     INFO -        run() - Running task 'run_cmds_task' with args {'cmds': 'show running'} on 20 hosts

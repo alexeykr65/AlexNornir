@@ -1,0 +1,318 @@
+### CE3: ===>> show running <<===
+Building configuration...
+
+  
+Current configuration : 7285 bytes
+!
+! Last configuration change at 09:29:32 UTC Wed Sep 18 2019 by root
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CE3
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition ISP1
+ rd 200515:131
+ !
+ address-family ipv4
+ exit-address-family
+!
+vrf definition ISP2
+ rd 200515:132
+ !
+ address-family ipv4
+ exit-address-family
+!
+enable password cisco
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name incoma.ru
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username root privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+track 10 ip sla 10 reachability
+!
+track 20 ip sla 20 reachability
+!
+! 
+!
+!
+!
+crypto ikev2 keyring DMVPN_KEY
+ peer ALL-DMVPN-HOSTS
+  address 0.0.0.0 0.0.0.0
+  pre-shared-key cisco123
+ !
+!
+!
+crypto ikev2 profile DMVPN_IKE_PROFILE_IWAN
+ description IKE Profile
+ match fvrf any
+ match identity remote address 0.0.0.0 
+ authentication local pre-share
+ authentication remote pre-share
+ keyring local DMVPN_KEY
+ dpd 40 5 on-demand
+!
+!
+crypto ipsec security-association replay window-size 1024
+!
+crypto ipsec transform-set DMVPN_TRANSFORM esp-aes 256 esp-sha-hmac 
+ mode transport
+!
+crypto ipsec profile DMVPN_IPSEC_PROFILE_IWAN
+ set transform-set DMVPN_TRANSFORM 
+ set ikev2-profile DMVPN_IKE_PROFILE_IWAN
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 15.15.15.15 255.255.255.255
+!
+interface Tunnel100
+ bandwidth 1000000
+ ip address 192.168.111.13 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp network-id 100
+ ip nhrp holdtime 300
+ ip nhrp nhs 192.168.111.1 nbma 94.232.31.145 multicast priority 1 cluster 1
+ ip nhrp nhs 192.168.111.2 nbma 94.232.31.146 multicast priority 2 cluster 1
+ ip nhrp nhs cluster 1 max-connections 1
+ ip nhrp nhs fallback 20
+ ip nhrp registration no-unique
+ ip nhrp shortcut
+ ip tcp adjust-mss 1360
+ delay 1000
+ if-state nhrp
+ tunnel source GigabitEthernet0/0
+ tunnel mode gre multipoint
+ tunnel key 100
+ tunnel vrf ISP1
+ tunnel protection ipsec profile DMVPN_IPSEC_PROFILE_IWAN
+!
+interface Tunnel200
+ bandwidth 1000000
+ ip address 192.168.112.13 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp network-id 200
+ ip nhrp holdtime 300
+ ip nhrp nhs 192.168.112.1 nbma 94.232.31.145 multicast priority 2 cluster 1
+ ip nhrp nhs 192.168.112.2 nbma 94.232.31.146 multicast priority 1 cluster 1
+ ip nhrp nhs cluster 1 max-connections 1
+ ip nhrp nhs fallback 20
+ ip nhrp registration no-unique
+ ip nhrp shortcut
+ ip tcp adjust-mss 1360
+ delay 2000
+ if-state nhrp
+ tunnel source GigabitEthernet0/2
+ tunnel mode gre multipoint
+ tunnel key 200
+ tunnel vrf ISP2
+ tunnel protection ipsec profile DMVPN_IPSEC_PROFILE_IWAN
+!
+interface GigabitEthernet0/0
+ vrf forwarding ISP1
+ ip address 10.15.15.2 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 172.16.3.1 255.255.255.0
+ ip nat inside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ vrf forwarding ISP2
+ ip address 10.18.18.2 255.255.255.0
+ ip nat outside
+ ip virtual-reassembly in
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.122.30.15 255.255.0.0
+ duplex full
+ speed auto
+ media-type rj45
+!
+!
+router eigrp DMVPN_TUN
+ !
+ address-family ipv4 unicast autonomous-system 100
+  !
+  af-interface default
+   passive-interface
+  exit-af-interface
+  !
+  af-interface Tunnel200
+   hello-interval 10
+   hold-time 30
+   no passive-interface
+   no split-horizon
+   stub-site wan-interface
+  exit-af-interface
+  !
+  af-interface Tunnel100
+   hello-interval 10
+   hold-time 30
+   no passive-interface
+   no split-horizon
+   stub-site wan-interface
+  exit-af-interface
+  !
+  topology base
+   distribute-list route-map MAP_LOCAL_NET out 
+  exit-af-topology
+  network 172.16.0.0
+  network 192.168.111.0
+  network 192.168.112.0
+  eigrp router-id 15.15.15.15
+  eigrp stub-site 100:100
+ exit-address-family
+!
+router ospf 20
+ router-id 15.15.15.15
+ network 172.16.3.0 0.0.0.255 area 0
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip nat inside source route-map NAT_ISP1 interface GigabitEthernet0/0 overload
+ip nat inside source route-map NAT_ISP2 interface GigabitEthernet0/2 overload
+ip route 10.80.1.0 255.255.255.0 10.122.1.1
+ip route vrf ISP1 0.0.0.0 0.0.0.0 10.15.15.1
+ip route vrf ISP2 0.0.0.0 0.0.0.0 10.18.18.1
+!
+!
+ip prefix-list PREF_LOCAL_NET seq 5 permit 172.16.3.0/24
+ip sla 10
+ icmp-echo 94.232.31.145 source-interface GigabitEthernet0/0
+ vrf ISP1
+ frequency 20
+ip sla schedule 10 life forever start-time now
+ip sla 20
+ icmp-echo 94.232.31.145 source-interface GigabitEthernet0/2
+ vrf ISP2
+ frequency 10
+ip sla schedule 20 life forever start-time now
+ip sla logging traps
+ip sla enable reaction-alerts
+!
+route-map MAP_LOCAL_NET permit 10
+ match ip address prefix-list PREF_LOCAL_NET
+!
+route-map NAT_ISP2 permit 10
+ match ip address 101
+ match interface GigabitEthernet0/0
+!
+route-map NAT_ISP1 permit 10
+ match ip address 101
+ match interface GigabitEthernet0/0
+!
+!
+access-list 101 permit ip 172.16.3.0 0.0.0.255 any
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ transport input all
+!
+no scheduler allocate
+!
+end
+
+
+

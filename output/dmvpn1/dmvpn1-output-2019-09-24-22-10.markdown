@@ -1,0 +1,317 @@
+### DMVPN1: ===>> show running <<===
+Building configuration...
+
+  
+Current configuration : 7834 bytes
+!
+! Last configuration change at 10:18:35 UTC Tue Sep 24 2019 by root
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname DMVPN1
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition IWAN
+ rd 200515:131
+ !
+ address-family ipv4
+  route-target export 200515:131
+  route-target import 200515:131
+ exit-address-family
+!
+enable password cisco
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name incoma.ru
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+crypto pki trustpoint TP-self-signed-4294967295
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4294967295
+ revocation-check none
+ rsakeypair TP-self-signed-4294967295
+!
+!
+crypto pki certificate chain TP-self-signed-4294967295
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 34323934 39363732 3935301E 170D3139 30393234 31303135 
+  32395A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D34 32393439 
+  36373239 3530819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  81009C53 1740669D 7393FABC B32C8964 BAFCF64A B50E6878 1C4BB62D 137B9C9E 
+  ADC9D56C 7A425EE1 4A03D74A 0FA2D6F3 1F32BC24 65F65796 EB249230 5D6267D1 
+  78ACA4A0 A7237B7E 10C9846E 45C415CE 5CE9CC6D 8AC6C6D3 B943241E 924554D7 
+  95522C7F 857ED4C6 E6A7A695 8449B98D C255B648 0510A962 4668607A D96F4632 
+  9F850203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14BCF5F4 9C780F4F E9258DE9 4EAF5FF5 FE668444 1F301D06 
+  03551D0E 04160414 BCF5F49C 780F4FE9 258DE94E AF5FF5FE 6684441F 300D0609 
+  2A864886 F70D0101 05050003 81810085 C7C2C4EE 90B5A095 C5A3D466 57A84D7C 
+  444AD71F 877693A1 1D2EF82A 29BCFFC7 C23E9320 4B2D22FA 9373B7E7 B0DBA5EA 
+  AB83BF25 45BAE27E 904F4A85 3391BC42 FAF90044 68F46C82 79BD6BE0 22A467BB 
+  408642D7 7D84B24B 0054904C FD9E8322 D204AB5F 49E4C4E7 5DB0C246 39124B18 
+  126A40B5 2B74B031 2CC5CB7B 57AB28
+  	quit
+username root privilege 15 password 0 cisco
+!
+redundancy
+bfd-template single-hop DMVPN
+ interval min-tx 50 min-rx 50 multiplier 3
+!
+!
+!
+! 
+!
+!
+!
+crypto ikev2 keyring DMVPN_KEY
+ peer ALL-DMVPN-HOSTS
+  address 0.0.0.0 0.0.0.0
+  pre-shared-key cisco123
+ !
+!
+!
+crypto ikev2 profile DMVPN_IKE_PROFILE_IWAN
+ description IKE Profile
+ match fvrf any
+ match identity remote address 0.0.0.0 
+ authentication local pre-share
+ authentication remote pre-share
+ keyring local DMVPN_KEY
+!
+!
+crypto ipsec security-association replay window-size 1024
+!
+crypto ipsec transform-set DMVPN_TRANSFORM esp-aes 256 esp-sha-hmac 
+ mode transport
+!
+crypto ipsec profile DMVPN_IPSEC_PROFILE_IWAN
+ set transform-set DMVPN_TRANSFORM 
+ set ikev2-profile DMVPN_IKE_PROFILE_IWAN
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 1.1.1.1 255.255.255.255
+!
+interface Loopback94
+ vrf forwarding IWAN
+ ip address 94.232.31.145 255.255.255.255
+!
+interface Tunnel100
+ bandwidth 1000000
+ ip address 192.168.111.1 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 100
+ ip nhrp holdtime 300
+ ip nhrp registration no-unique
+ ip nhrp redirect
+ ip tcp adjust-mss 1360
+ delay 1000
+ tunnel source Loopback94
+ tunnel mode gre multipoint
+ tunnel key 100
+ tunnel vrf IWAN
+ tunnel protection ipsec profile DMVPN_IPSEC_PROFILE_IWAN shared
+!
+interface Tunnel200
+ bandwidth 1000000
+ ip address 192.168.112.1 255.255.255.0
+ no ip redirects
+ ip mtu 1400
+ ip nhrp map multicast dynamic
+ ip nhrp network-id 200
+ ip nhrp holdtime 300
+ ip nhrp registration no-unique
+ ip nhrp redirect
+ ip tcp adjust-mss 1360
+ delay 2000
+ tunnel source Loopback94
+ tunnel mode gre multipoint
+ tunnel key 200
+ tunnel vrf IWAN
+ tunnel protection ipsec profile DMVPN_IPSEC_PROFILE_IWAN shared
+!
+interface GigabitEthernet0/0
+ vrf forwarding IWAN
+ ip address 10.200.1.1 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ ip address 172.16.11.2 255.255.255.0
+ delay 10000
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ ip address 10.122.30.1 255.255.0.0
+ duplex full
+ speed auto
+ media-type rj45
+!
+!
+router eigrp DMVPN_TUN
+ !
+ address-family ipv4 unicast autonomous-system 100
+  !
+  af-interface default
+   passive-interface
+  exit-af-interface
+  !
+  af-interface Tunnel100
+   hello-interval 10
+   hold-time 30
+   no passive-interface
+   no split-horizon
+  exit-af-interface
+  !
+  af-interface Tunnel200
+   hello-interval 10
+   hold-time 30
+   no passive-interface
+   no split-horizon
+  exit-af-interface
+  !
+  topology base
+   redistribute ospf 20 metric 1000000 1000 255 1 1500
+  exit-af-topology
+  network 172.16.0.0
+  network 192.168.111.0
+  network 192.168.112.0
+  eigrp router-id 1.1.1.1
+ exit-address-family
+!
+router ospf 20
+ router-id 1.1.1.1
+ redistribute eigrp 100 metric 1000 subnets
+ network 1.1.1.1 0.0.0.0 area 0
+ network 172.16.11.0 0.0.0.255 area 0
+!
+router bgp 200515
+ bgp router-id 1.1.1.1
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ !
+ address-family ipv4 vrf IWAN
+  network 94.232.31.145 mask 255.255.255.255
+  neighbor 10.200.1.3 remote-as 200515
+  neighbor 10.200.1.3 activate
+  neighbor 10.200.1.4 remote-as 200515
+  neighbor 10.200.1.4 activate
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.122.1.1
+!
+ip access-list extended GRE_DENY
+ deny   esp any any
+ permit ip any any
+!
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ transport input all
+!
+no scheduler allocate
+netconf ssh
+!
+end
+
+
+

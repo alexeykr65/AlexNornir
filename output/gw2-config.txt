@@ -1,0 +1,187 @@
+### GW2: ===>> show running <<===
+Building configuration...
+
+  
+Current configuration : 4141 bytes
+!
+! Last configuration change at 18:03:30 UTC Mon Sep 2 2019 by root
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname GW2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable password cisco
+!
+aaa new-model
+!
+!
+aaa authentication login default local
+aaa authorization exec default local 
+!
+!
+!
+!
+!
+aaa session-id common
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip domain name incoma.ru
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+username root privilege 15 password 0 cisco
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 4.4.4.4 255.255.255.255
+!
+interface GigabitEthernet0/0
+ ip address 10.200.1.4 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 194.154.73.46 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 195.16.122.156 255.255.255.248
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/3
+ ip address 10.122.30.4 255.255.0.0
+ duplex full
+ speed auto
+ media-type rj45
+!
+router bgp 200515
+ bgp router-id 4.4.4.4
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.200.1.1 remote-as 200515
+ neighbor 10.200.1.2 remote-as 200515
+ neighbor 194.154.73.45 remote-as 3216
+ neighbor 195.16.122.155 remote-as 25159
+ !
+ address-family ipv4
+  network 94.232.31.145 mask 255.255.255.255
+  network 94.232.31.146 mask 255.255.255.255
+  neighbor 10.200.1.1 activate
+  neighbor 10.200.1.1 next-hop-self
+  neighbor 10.200.1.2 activate
+  neighbor 10.200.1.2 next-hop-self
+  neighbor 194.154.73.45 activate
+  neighbor 194.154.73.45 route-map PREF120 in
+  neighbor 194.154.73.45 route-map PREPEND out
+  neighbor 195.16.122.155 activate
+  neighbor 195.16.122.155 route-map PREPEND2 out
+ exit-address-family
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.122.1.1
+!
+!
+route-map PREF120 permit 10
+ set local-preference 120
+!
+route-map PREPEND permit 10
+ set as-path prepend 200515
+!
+route-map PREPEND2 permit 10
+ set as-path prepend 200515 200515
+!
+!
+!
+!
+!
+control-plane
+!
+banner exec ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner incoming ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+banner login ^C
+**************************************************************************
+* IOSv is strictly limited to use for evaluation, demonstration and IOS  *
+* education. IOSv is provided as-is and is not supported by Cisco's      *
+* Technical Advisory Center. Any use or disclosure, in whole or in part, *
+* of the IOSv Software or Documentation to any third party for any       *
+* purposes is expressly prohibited except as otherwise authorized by     *
+* Cisco in writing.                                                      *
+**************************************************************************^C
+!
+line con 0
+line aux 0
+line vty 0 4
+ transport input all
+!
+no scheduler allocate
+!
+end
+
+
+
